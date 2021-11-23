@@ -18,20 +18,13 @@ namespace CloudFinal.Erpservices
     {
 
         private readonly static string UrlErp = "http://pharmacyonenew.oncloud.gr/s1services/JS/updateItems/cloudOnTest"; //deifne url
-        [Obsolete]
-        private IHostingEnvironment _env; // this is for local use  demo/txt
-
-        [Obsolete]
-        public Erpservice(IHostingEnvironment env)
-        {
-            _env = env;
-        }
+     
 
         public  async Task<List<Products>> GetproductsErp()
         {
             
 
-        jsonclassproduct.Production myvar = new jsonclassproduct.Production();
+        //jsonclassproduct.Production myvar = new jsonclassproduct.Production();
 
             using (var httpClient = new HttpClient())
             {
@@ -43,22 +36,21 @@ namespace CloudFinal.Erpservices
                 using (var response = await httpClient.GetAsync(UrlErp)) //http client connect to api
 
                 {
-                    //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-                    //var encode = Encoding.GetEncoding("Windows-1253");                //define text econding
+                        var encode = Encoding.GetEncoding("Windows-1253");                //define text econding
 
-                    //    using (var responseStream = await response.Content.ReadAsStreamAsync())
-                    //    using (var deflateStream = new GZipStream(responseStream, CompressionMode.Decompress)) //deGzip
-                            var path = Path.Combine(_env.ContentRootPath, "Demo/myjson.txt");
-                        using (var streamReader = new StreamReader(path))
-                        //using (var streamReader = new StreamReader(deflateStream, encode, true))
+                        using (var responseStream = await response.Content.ReadAsStreamAsync())
+                        using (var deflateStream = new GZipStream(responseStream, CompressionMode.Decompress)) //deGzip
+
+                        using (var streamReader = new StreamReader(deflateStream, encode, true))
                         {
                             var str = streamReader.ReadToEnd();
 
                             var jsonData = JsonConvert.SerializeObject(str);  
 
 
-                            myvar = JsonConvert.DeserializeObject<jsonclassproduct.Production>(str); 
+                            var myvar = JsonConvert.DeserializeObject<jsonclassproduct.Production>(str); 
 
                             if (!myvar.Success)         //if dosent succes
                             {
@@ -71,11 +63,12 @@ namespace CloudFinal.Erpservices
 
                             }
 
-
-
+                            else
+                            return (myvar.Products);
                         }
 
                     }
+                    
                 }
                 catch (Exception ex)
                 {           // unknown exception error message  (connect problem decompress or something else)
@@ -85,7 +78,7 @@ namespace CloudFinal.Erpservices
                 }
                 //}
 
-                return (myvar.Products); // return list products
+                return null; // return null 
 
             }
 
