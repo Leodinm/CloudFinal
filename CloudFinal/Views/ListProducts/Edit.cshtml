@@ -1,0 +1,234 @@
+﻿@model CloudFinal.Models.Products
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Edi Products";
+
+}
+<link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
+<link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
+
+<style>
+    label.error {
+        position: absolute;
+        font-size: 0.78rem;
+        line-height: 1.25;
+        padding-top: 4px;
+        color: red;
+    }
+
+    .error {
+        border-color: red;
+    }
+
+   @* .valid {
+        border-color: green;
+    } *@
+</style>
+
+<h2>Edit SoftoneProduct</h2>
+
+<form id="Update">
+    <div class="form-group">
+        <label>ExternalId</label>
+        <div class="tt-container">
+            <input id="externalId" name="externalId" data-rule-validExternal="true" required type="text" value=@Model.externalId  class="form-control" readonly />
+            <label id="externalId-error" class="error" for="externalId"></label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Code</label>
+        <div class="tt-container">
+            <input id="Code" name="Code"   type="text" value=@Model.code class="form-control" />
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Name</label>
+        <div class="tt-container">
+            <input id="Name" name="Name"   type="text" value=@Model.name class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Barcode</label>
+        <div class="tt-container">
+            <input id="barcode" name="barcode"   type="text" value=@Model.barcode class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Price</label>
+        <div class="tt-container">
+            <input id="price" name="price"   type="text" value=@Model.price class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>WholesalePrice</label>
+        <div class="tt-container">
+            <input id="wholesalePrice" name="wholesalePrice"   type="text" value=@Model.wholesalePrice class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Discount</label>
+        <div class="tt-container">
+            <input id="discount" name="discount"   type="text" value=@Model.discount class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <div class="tt-container">
+            <textarea class="form-control" id="description" rows="3">@Model.description </textarea>
+            @* <input id="Description" name="Description"   type="text" value=@Model.description class="form-control" />*@
+        </div>
+    </div>
+
+
+    <button id="Submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+
+@section Scripts
+{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+
+  
+    <script>
+
+
+        $(document).ready(function () {
+
+            var form = $("#Update");
+
+            $.validator.addMethod('Currency', function (value) {
+                return /^\d{0,8}(\.\d{0,2})?$/.test(value);
+            }, 'please enter valid value.');
+
+
+
+            $.validator.addMethod('code', function (value) {
+                return /^[A-Z][0-9]{8}$/.test(value);
+            }, 'please enter valid code (1 upper case letter 8 Numbers).');
+
+
+
+
+            $('#Update').validate({
+                rules: {
+                    'externalId': {
+                        required: true,
+                        digits: true,
+                        minlength: 5
+                    },
+                    'Name': {
+                        required: true,
+
+                        minlength: 2,
+                        maxlength: 20,
+                    },
+                    'Code': {
+                        required: true,
+                        code: true,
+
+                    },
+
+                    'barcode': {
+                        required: true,
+                        digits: true,
+                        minlength: 10
+                    },
+                    'price': {
+                        required: true,
+
+                        Currency: true
+                    },
+                    'wholesalePrice': {
+                        required: true,
+
+                        Currency: true
+                    },
+                    'discount': {
+                        required: true,
+
+                        digits: true
+                    },
+
+
+                },
+            });
+
+
+            $("#Submit").click(function (e) {
+                if (form.valid()) {
+
+                    var Product = new Object();
+                    Product.externalId = $('#externalId').val();
+                    Product.Code = $('#Code').val();
+                    Product.Name = $('#Name').val();
+                    Product.barcode = $('#barcode').val();
+                    Product.price = $('#price').val();
+                    Product.wholesalePrice = $('#wholesalePrice').val();
+                    Product.description = $('#description').val();
+
+                    if (Product != null) {
+
+                        $.ajax({
+                            url: "/api/ProductsApi/",
+                            method: "PUT",
+                            data: JSON.stringify(Product),
+                            contentType: "application/json; charset=utf-8",
+                            cache: false,
+                            success: function (resp) {
+                                console.log(resp);
+                                toastr.success("Your Product has been Update");
+
+
+                            },
+
+                            error: function (xhr) {
+                               
+                                if (xhr.status == 400) {
+                                var obj = JSON.parse(xhr.responseText);
+                                    toastr.error(obj.Product);
+                                }
+                                else toastr.error("something Gone wrong");
+                            }
+
+
+                        });
+
+
+
+                    }
+
+
+
+
+                }
+                return false;
+            });
+        });
+
+
+
+
+
+
+    </script>
+
+}
