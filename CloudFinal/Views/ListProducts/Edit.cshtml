@@ -86,7 +86,7 @@
     <div class="form-group">
         <label>Description</label>
         <div class="tt-container">
-            <textarea class="form-control" id="description" rows="3">@Model.description </textarea>
+            <textarea name="description"  class="form-control" id="description" rows="3">@Model.description </textarea>
             @* <input id="Description" name="Description"   type="text" value=@Model.description class="form-control" />*@
         </div>
     </div>
@@ -161,6 +161,10 @@
                         required: true,
 
                         Currency: true
+                    },
+                    'description': {
+                        required: true,
+                        minlength: 8,
                     },
                     'discount': {
                         required: true,

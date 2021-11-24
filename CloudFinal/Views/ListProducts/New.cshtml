@@ -86,7 +86,7 @@
     <div class="form-group">
         <label>Description</label>
         <div class="tt-container">
-            <textarea class="form-control" id="description" rows="3"> </textarea>
+            <textarea name="description" class="form-control"  id="description" rows="3"> </textarea>
             @* <input id="Description" name="Description" data-rule-atLeastOneMovie="true" type="text" value=@Model.description class="form-control" />*@
         </div>
     </div>
@@ -163,10 +163,16 @@
 
                         Currency: true
                     },
+
+                    'description': {
+                        required: true,
+                        minlength: 8,
+                    },
+
                     'discount': {
                         required: true,
 
-                        digits: true
+                        digits: true,
                     },
 
 
