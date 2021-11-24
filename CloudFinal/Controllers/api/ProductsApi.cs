@@ -191,7 +191,7 @@ namespace CloudFinal.Controllers.api
         }
 
 
-        [HttpGet]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProducts(int id)            //getting single product
         {
             try
@@ -220,7 +220,7 @@ namespace CloudFinal.Controllers.api
 
 
 
-        [HttpDelete]        //delte single product serach and delete with external id only
+        [HttpDelete("{id:int}")]        //delte single product serach and delete with external id only
         public async Task<IActionResult> DeleteProducts(uint id)
         {
             try
