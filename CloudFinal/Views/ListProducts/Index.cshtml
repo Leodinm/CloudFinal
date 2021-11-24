@@ -124,7 +124,7 @@
                                 url: "/api/ProductsApi/" + button.attr("data-Products-id"),
                                 method: "DELETE",
                                 success: function () {
-                                    toastr.success("Product remove successfully .");
+                                    toastr.success("Your Product has been Deleted .");
                                     table
                                         .row(button.parents('tr'))
                                         .remove()

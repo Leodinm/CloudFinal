@@ -29,7 +29,7 @@ namespace CloudFinal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            /* global Authorization*/
             services.AddMvc(config => {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
@@ -46,7 +46,7 @@ namespace CloudFinal
         .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
-
+            /*Define DI*/
             services.AddScoped<IRepositoryProducts, RepositoryProducts>();
 
             services.AddScoped<IErpservices, Erpservice>();

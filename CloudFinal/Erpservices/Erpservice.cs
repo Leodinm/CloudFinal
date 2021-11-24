@@ -52,7 +52,7 @@ namespace CloudFinal.Erpservices
 
                             var myvar = JsonConvert.DeserializeObject<jsonclassproduct.Production>(str); 
 
-                            if (!myvar.Success)         //if dosent succes
+                            if (!myvar.Success)         //if does not succes
                             {
                                 if(myvar.Error!=null)
                                 {
