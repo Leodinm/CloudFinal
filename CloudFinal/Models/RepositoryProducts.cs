@@ -18,7 +18,7 @@ namespace CloudFinal.Models
         {
             _context = context;
         }
-        public async Task DeleteProductse(uint externalId)
+        public async Task DeleteProduct(uint externalId)
         {
             var deleteobj = await _context.Products
               .FirstOrDefaultAsync(e => e.externalId == externalId);

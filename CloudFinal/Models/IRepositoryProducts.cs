@@ -13,6 +13,6 @@ namespace CloudFinal.Models
         Task<IEnumerable<Products>> GetProducts();
         Task<Products> AddProducts(Products Product);
         Task<Products> UpdateProduct(Products Product);
-        Task DeleteProductse(uint externalId);
+        Task DeleteProduct(uint externalId);
     }
 }

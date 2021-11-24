@@ -232,7 +232,7 @@ namespace CloudFinal.Controllers.api
                     return NotFound($"Product with Id = {id} not found");
                 }
 
-                await repositoryProducts.DeleteProductse(id);
+                await repositoryProducts.DeleteProduct(id);
 
                 return Ok($"Employee with Id = {id} deleted");
             }
