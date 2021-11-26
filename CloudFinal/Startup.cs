@@ -37,6 +37,27 @@ namespace CloudFinal
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredUniqueChars = 0;
+                
+
+
+
+
+
+            });
+
+
+
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));

@@ -133,7 +133,7 @@ namespace CloudFinal.Controllers.api
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error creating new employee record");
+                    "Error creating new product record");
             }
         }
         [HttpPut]
@@ -234,12 +234,12 @@ namespace CloudFinal.Controllers.api
 
                 await repositoryProducts.DeleteProduct(id);
 
-                return Ok($"Employee with Id = {id} deleted");
+                return Ok($"Product with Id = {id} deleted");
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error deleting employee record");
+                    "Error deleting Product record");
             }
         }
 
