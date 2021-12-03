@@ -54,7 +54,11 @@ namespace CloudFinal
 
             });
 
+            services.AddHttpClient("ErpService", c =>
+            {
+                c.BaseAddress = new Uri("http://pharmacyonenew.oncloud.gr/s1services/JS/updateItems/cloudOnTest");
 
+            });
 
 
 

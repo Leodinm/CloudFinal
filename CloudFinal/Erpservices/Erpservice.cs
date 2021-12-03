@@ -13,29 +13,34 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CloudFinal.Erpservices
 {
-    
+
     public class Erpservice : IErpservices
     {
 
-        private readonly static string UrlErp = "http://pharmacyonenew.oncloud.gr/s1services/JS/updateItems/cloudOnTest"; //deifne url
-     
+        private readonly IHttpClientFactory _clientFactory;
 
-        public  async Task<List<Products>> GetproductsErp()
+        public Erpservice(IHttpClientFactory clientFactory)     //DI httpclient
         {
-            
+            this._clientFactory = clientFactory;
 
-        //jsonclassproduct.Production myvar = new jsonclassproduct.Production();
 
-            using (var httpClient = new HttpClient())
-            {
-               
+        }
+
+
+        public async Task<List<Products>> GetproductsErp()
+        {
+
+
+            //jsonclassproduct.Production myvar = new jsonclassproduct.Production();
+
+           
 
                 try
-                { 
-
-                using (var response = await httpClient.GetAsync(UrlErp)) //http client connect to api
-
                 {
+                var client = _clientFactory.CreateClient("ErpService");
+                var response = await client.GetAsync("");
+
+                
                         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
                         var encode = Encoding.GetEncoding("Windows-1253");                //define text econding
@@ -47,40 +52,41 @@ namespace CloudFinal.Erpservices
                         {
                             var str = streamReader.ReadToEnd();
 
-                            var jsonData = JsonConvert.SerializeObject(str);  
+                            var jsonData = JsonConvert.SerializeObject(str);
 
 
-                            var myvar = JsonConvert.DeserializeObject<jsonclassproduct.Production>(str); 
+                            var myvar = JsonConvert.DeserializeObject<jsonclassproduct.Production>(str);
 
                             if (!myvar.Success)         //if does not succes
                             {
-                                if(myvar.Error!=null)
+                                if (myvar.Error != null)
                                 {
                                     throw new ErpServiceApiExceptions(myvar.Error);         // if api define the error
-                                }else
+                                }
+                                else
                                     throw new ErpServiceApiExceptions("No data avalible");
 
 
                             }
 
                             else
-                            return (myvar.Products);
+                                return (myvar.Products);
                         }
 
-                    }
                     
+
                 }
                 catch (Exception ex)
                 {           // unknown exception error message  (connect problem decompress or something else)
-                    throw  new ErpServiceApiExceptions(ex.Message);
+                    throw new ErpServiceApiExceptions(ex.Message);
 
 
                 }
                 //}
 
-                
 
-            }
+
+            
 
         }
 
