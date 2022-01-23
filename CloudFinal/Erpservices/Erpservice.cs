@@ -14,6 +14,44 @@ using Microsoft.AspNetCore.Hosting;
 namespace CloudFinal.Erpservices
 {
 
+    /*
+       OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+
+                            // Ensure we always have an error and error description.
+                            if (string.IsNullOrEmpty(context.Error))
+                                context.Error = "invalid_token";
+                            if (string.IsNullOrEmpty(context.ErrorDescription))
+                                context.ErrorDescription = "This request requires a valid JWT access token to be provided";
+
+                            // Add some extra context for expired tokens.
+                            if (context.AuthenticateFailure != null && context.AuthenticateFailure.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                var authenticationException = context.AuthenticateFailure as SecurityTokenExpiredException;
+                                context.Response.Headers.Add("x-token-expired", authenticationException.Expires.ToString("o"));
+                                context.ErrorDescription = $"The token expired on {authenticationException.Expires.ToString("o")}";
+                            }
+
+                            var result = JsonConvert.SerializeObject(new Response<string>(context.Error , new List<string>
+                                                                        { context.ErrorDescription,  }  ));
+
+                           return context.Response.WriteAsync(result);
+                        }
+
+
+    public Response( string message, List<string> error ,bool succes = false)
+        {
+            Succeeded = succes;
+            Errors = error;
+            Message = message;
+        }
+
+*/
+     
+
     public class Erpservice : IErpservices
     {
 

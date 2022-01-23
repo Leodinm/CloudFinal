@@ -30,7 +30,8 @@ namespace CloudFinal
         public void ConfigureServices(IServiceCollection services)
         {
             /* global Authorization*/
-            services.AddMvc(config => {
+            services.AddMvc(config =>
+            {
                 var policy = new AuthorizationPolicyBuilder()
                                 .RequireAuthenticatedUser()
                                 .Build();
